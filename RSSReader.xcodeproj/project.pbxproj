@@ -8,20 +8,28 @@
 
 /* Begin PBXBuildFile section */
 		225F5C241CFAD7FF00E2080F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225F5C231CFAD7FF00E2080F /* AppDelegate.swift */; };
-		225F5C261CFAD80000E2080F /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225F5C251CFAD7FF00E2080F /* ViewController.swift */; };
 		225F5C291CFAD80000E2080F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 225F5C271CFAD80000E2080F /* Main.storyboard */; };
 		225F5C2B1CFAD80000E2080F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 225F5C2A1CFAD80000E2080F /* Assets.xcassets */; };
 		225F5C2E1CFAD80000E2080F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 225F5C2C1CFAD80000E2080F /* LaunchScreen.storyboard */; };
+		225F5C381CFADE8D00E2080F /* NewsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225F5C371CFADE8D00E2080F /* NewsTableViewCell.swift */; };
+		225F5C3A1CFADEC900E2080F /* NewsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225F5C391CFADEC900E2080F /* NewsTableViewController.swift */; };
+		225F5C3E1CFAE25200E2080F /* StructNews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225F5C3D1CFAE25200E2080F /* StructNews.swift */; };
+		BD2747BF2077F07589737138 /* Pods_RSSReader.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 28AA925B463750C8FF8A7F1F /* Pods_RSSReader.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		225F5C201CFAD7FF00E2080F /* RSSReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RSSReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		225F5C231CFAD7FF00E2080F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		225F5C251CFAD7FF00E2080F /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		225F5C281CFAD80000E2080F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		225F5C2A1CFAD80000E2080F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		225F5C2D1CFAD80000E2080F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		225F5C2F1CFAD80000E2080F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		225F5C371CFADE8D00E2080F /* NewsTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsTableViewCell.swift; sourceTree = "<group>"; };
+		225F5C391CFADEC900E2080F /* NewsTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewsTableViewController.swift; sourceTree = "<group>"; };
+		225F5C3D1CFAE25200E2080F /* StructNews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StructNews.swift; sourceTree = "<group>"; };
+		28AA925B463750C8FF8A7F1F /* Pods_RSSReader.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RSSReader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B12D27153D19D41E01664E86 /* Pods-RSSReader.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RSSReader.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RSSReader/Pods-RSSReader.debug.xcconfig"; sourceTree = "<group>"; };
+		BC66DA98FBDE575AB20A9DBE /* Pods-RSSReader.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RSSReader.release.xcconfig"; path = "Pods/Target Support Files/Pods-RSSReader/Pods-RSSReader.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -29,6 +37,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BD2747BF2077F07589737138 /* Pods_RSSReader.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,6 +49,8 @@
 			children = (
 				225F5C221CFAD7FF00E2080F /* RSSReader */,
 				225F5C211CFAD7FF00E2080F /* Products */,
+				EE92AF8A2D0F888B4FEA0F5A /* Pods */,
+				FE2728ABC16FAB2490D42E69 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -55,13 +66,32 @@
 			isa = PBXGroup;
 			children = (
 				225F5C231CFAD7FF00E2080F /* AppDelegate.swift */,
-				225F5C251CFAD7FF00E2080F /* ViewController.swift */,
+				225F5C391CFADEC900E2080F /* NewsTableViewController.swift */,
+				225F5C371CFADE8D00E2080F /* NewsTableViewCell.swift */,
+				225F5C3D1CFAE25200E2080F /* StructNews.swift */,
 				225F5C271CFAD80000E2080F /* Main.storyboard */,
-				225F5C2A1CFAD80000E2080F /* Assets.xcassets */,
 				225F5C2C1CFAD80000E2080F /* LaunchScreen.storyboard */,
+				225F5C2A1CFAD80000E2080F /* Assets.xcassets */,
 				225F5C2F1CFAD80000E2080F /* Info.plist */,
 			);
 			path = RSSReader;
+			sourceTree = "<group>";
+		};
+		EE92AF8A2D0F888B4FEA0F5A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				B12D27153D19D41E01664E86 /* Pods-RSSReader.debug.xcconfig */,
+				BC66DA98FBDE575AB20A9DBE /* Pods-RSSReader.release.xcconfig */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		FE2728ABC16FAB2490D42E69 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				28AA925B463750C8FF8A7F1F /* Pods_RSSReader.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -71,9 +101,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 225F5C321CFAD80000E2080F /* Build configuration list for PBXNativeTarget "RSSReader" */;
 			buildPhases = (
+				4989808A8133FA3C987D9A1C /* Check Pods Manifest.lock */,
 				225F5C1C1CFAD7FF00E2080F /* Sources */,
 				225F5C1D1CFAD7FF00E2080F /* Frameworks */,
 				225F5C1E1CFAD7FF00E2080F /* Resources */,
+				EFC2608A2D5D916100FE4267 /* Embed Pods Frameworks */,
+				C82FA353B33B0E34C2701B74 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -130,13 +163,63 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		4989808A8133FA3C987D9A1C /* Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		C82FA353B33B0E34C2701B74 /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RSSReader/Pods-RSSReader-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		EFC2608A2D5D916100FE4267 /* Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Embed Pods Frameworks";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RSSReader/Pods-RSSReader-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		225F5C1C1CFAD7FF00E2080F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				225F5C261CFAD80000E2080F /* ViewController.swift in Sources */,
 				225F5C241CFAD7FF00E2080F /* AppDelegate.swift in Sources */,
+				225F5C381CFADE8D00E2080F /* NewsTableViewCell.swift in Sources */,
+				225F5C3E1CFAE25200E2080F /* StructNews.swift in Sources */,
+				225F5C3A1CFADEC900E2080F /* NewsTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -247,6 +330,7 @@
 		};
 		225F5C331CFAD80000E2080F /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = B12D27153D19D41E01664E86 /* Pods-RSSReader.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = RSSReader/Info.plist;
@@ -259,6 +343,7 @@
 		};
 		225F5C341CFAD80000E2080F /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = BC66DA98FBDE575AB20A9DBE /* Pods-RSSReader.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				INFOPLIST_FILE = RSSReader/Info.plist;
@@ -288,6 +373,7 @@
 				225F5C341CFAD80000E2080F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
