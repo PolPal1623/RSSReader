@@ -16,6 +16,9 @@ class NewsTableViewController: UITableViewController {
     // MARK: - Глобальные переменные для NewsTableViewController
     //===================================//
     
+    var urlRSSNews = ["http://lenta.ru/rss", "http://www.f1-world.ru/news/rssexp6.xml"] // Адрес RSS Новостей
+    var arrayNews = [RSSItem]() // Массив для парсинга ленты новостей
+    
     //===================================//
     // MARK: - IBOutlet связывающие Scene и NewsTableViewController
     //===================================//
@@ -23,6 +26,14 @@ class NewsTableViewController: UITableViewController {
     //===================================//
     // MARK: - IBAction на нашей Scene
     //===================================//
+    
+    //-----------------------------------// Метод для теста парсинга
+    @IBAction func Refresh(sender: UIBarButtonItem) {
+        sortArrayNews() // Метод для сортировки arrayNews по дате новости
+        for index in 0..<arrayNews.count {
+            print(arrayNews[index].link)
+        }
+    }
     
     //===================================//
     // MARK: - Методы загружаемые перед или после обновления View Controller
@@ -32,6 +43,8 @@ class NewsTableViewController: UITableViewController {
     override func viewDidLoad() {
         //------------------ Перенос всех свойств класса этому экземпляру
         super.viewDidLoad()
+        
+        newsParsing(urlRSSNews) // Метод для парсинга RSS
     }
     
     //===================================//
@@ -42,7 +55,30 @@ class NewsTableViewController: UITableViewController {
     // MARK: - Парсинг RSSNews
     //===================================//
     
+    //-----------------------------------// Метод для парсинга RSS
+    func newsParsing(url: [String]) {
+        for index in url {
+            //------------------ Запрос через Alamofire
+            Alamofire.request(.GET, index).responseRSS() { (response) -> Void in
+                if let feed: RSSFeed = response.result.value {
+                    for item in feed.items {
+                        self.arrayNews.append(item)
+                    }
+                }
+            }
+        }
+    }
     
+    //-----------------------------------// Метод для сортировки arrayNews по дате новости
+    func sortArrayNews() {
+        for index in 0..<arrayNews.count {
+            if arrayNews[index].pubDate != nil {
+                arrayNews.sortInPlace{
+                    return $0.pubDate?.timeIntervalSince1970 < $1.pubDate?.timeIntervalSince1970
+                }
+            }
+        }
+    }
     
     //===================================//
     // MARK: - Методы для работы и настройки TableView
