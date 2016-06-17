@@ -17,7 +17,10 @@ class NewsTableViewCell: UITableViewCell {
     //===================================//
     // MARK: - IBOutlet связывающие Scene и NewsTableViewCell
     //===================================//
-    
+   
+    @IBOutlet weak var titleNews: UILabel! // Заголовок
+    @IBOutlet weak var textNews: UILabel! // Описание новости
+
     //===================================//
     // MARK: - IBAction на нашей Scene
     //===================================//

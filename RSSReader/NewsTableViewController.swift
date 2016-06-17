@@ -29,10 +29,7 @@ class NewsTableViewController: UITableViewController {
     
     //-----------------------------------// Метод для теста парсинга
     @IBAction func Refresh(sender: UIBarButtonItem) {
-        sortArrayNews() // Метод для сортировки arrayNews по дате новости
-        for index in 0..<arrayNews.count {
-            print(arrayNews[index].link)
-        }
+        refreshSomething() // Метод для обновления запроса URL и перезагрузки таблицы
     }
     
     //===================================//
@@ -44,7 +41,7 @@ class NewsTableViewController: UITableViewController {
         //------------------ Перенос всех свойств класса этому экземпляру
         super.viewDidLoad()
         
-        newsParsing(urlRSSNews) // Метод для парсинга RSS
+        refreshSomething() // Метод для обновления запроса URL и перезагрузки таблицы
     }
     
     //===================================//
@@ -74,9 +71,27 @@ class NewsTableViewController: UITableViewController {
         for index in 0..<arrayNews.count {
             if arrayNews[index].pubDate != nil {
                 arrayNews.sortInPlace{
-                    return $0.pubDate?.timeIntervalSince1970 < $1.pubDate?.timeIntervalSince1970
+                    return $0.pubDate?.timeIntervalSince1970 < $1.pubDate?.timeIntervalSince1970 // Сортировка по дате публикации
                 }
             }
+        }
+    }
+    
+    //-----------------------------------// Метод для задержки вызова функции
+    func delayClosure(delay: Double, closure: () -> ()) {
+        dispatch_after(
+            dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC))),
+            dispatch_get_main_queue(), closure)
+    }
+    
+    //-----------------------------------// Метод для обновления запроса URL и перезагрузки таблицы
+    func refreshSomething() {
+        newsParsing(urlRSSNews) // Метод для парсинга RSS
+        delayClosure(3) {
+            self.sortArrayNews() // Метод для сортировки arrayNews по дате новости
+        }
+        delayClosure(4) {
+            self.tableView.reloadData() // Перезагрузка таблицы
         }
     }
     
@@ -87,19 +102,22 @@ class NewsTableViewController: UITableViewController {
     //-----------------------------------// Метод возвращает кол-во секций TableView
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         
-        return 0
+        return 1
     }
     
     //-----------------------------------// Метод возвращает кол-во строк в секции TableView
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 0
+        return arrayNews.count
     }
     
     //-----------------------------------// Создаем ячейку по идентификатору с indexPath в методе для работы и настройки Cell в TableView
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("NewsCell", forIndexPath: indexPath) as! NewsTableViewCell
+        
+        cell.titleNews.text = arrayNews[indexPath.row].title
+        cell.textNews.text = arrayNews[indexPath.row].itemDescription
 
         return cell
     }

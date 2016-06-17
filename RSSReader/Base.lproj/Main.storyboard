@@ -3,24 +3,55 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--News Table View Controller-->
         <scene sceneID="5aw-ZU-Fve">
             <objects>
                 <tableViewController id="SaC-mA-hXd" customClass="NewsTableViewController" customModule="RSSReader" customModuleProvider="target" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="C2D-H1-O9A">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="70" sectionHeaderHeight="28" sectionFooterHeight="28" id="C2D-H1-O9A">
                         <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NewsCell" id="4cA-UT-qEi" customClass="NewsTableViewCell" customModule="RSSReader" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="92" width="320" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="NewsCell" rowHeight="70" id="4cA-UT-qEi" customClass="NewsTableViewCell" customModule="RSSReader" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="92" width="320" height="70"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="4cA-UT-qEi" id="2Jl-gc-br3">
-                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="69"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jTb-oc-RAm">
+                                            <rect key="frame" x="8" y="0.0" width="304" height="24"/>
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="24" id="dZF-qd-axh"/>
+                                            </constraints>
+                                            <fontDescription key="fontDescription" type="system" pointSize="10"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="justified" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vNK-x2-9F8">
+                                            <rect key="frame" x="8" y="25" width="304" height="36"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="8"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstAttribute="leadingMargin" secondItem="vNK-x2-9F8" secondAttribute="leading" id="5SY-E5-cb8"/>
+                                        <constraint firstAttribute="leadingMargin" secondItem="jTb-oc-RAm" secondAttribute="leading" id="6iW-1k-qsO"/>
+                                        <constraint firstItem="vNK-x2-9F8" firstAttribute="top" secondItem="jTb-oc-RAm" secondAttribute="bottom" constant="1" id="NKs-AN-dbn"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="jTb-oc-RAm" secondAttribute="trailing" id="d6C-x1-BmA"/>
+                                        <constraint firstItem="jTb-oc-RAm" firstAttribute="top" secondItem="2Jl-gc-br3" secondAttribute="topMargin" constant="-8" id="e84-Wv-caJ"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="vNK-x2-9F8" secondAttribute="trailing" id="y07-u8-u36"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="vNK-x2-9F8" secondAttribute="bottom" id="z9i-SH-Bs0"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="textNews" destination="vNK-x2-9F8" id="Dei-j3-8RL"/>
+                                    <outlet property="titleNews" destination="jTb-oc-RAm" id="V8z-g0-IGv"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
