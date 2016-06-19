@@ -11,18 +11,11 @@ import UIKit
 class NewsTableViewCell: UITableViewCell {
     
     //===================================//
-    // MARK: - Глобальные переменные для NewsTableViewCell
-    //===================================//
-    
-    //===================================//
     // MARK: - IBOutlet связывающие Scene и NewsTableViewCell
     //===================================//
    
     @IBOutlet weak var titleNews: UILabel! // Заголовок
     @IBOutlet weak var textNews: UILabel! // Описание новости
-
-    //===================================//
-    // MARK: - IBAction на нашей Scene
-    //===================================//
+    @IBOutlet weak var dateNews: UILabel! // Дата новости
 
 }
