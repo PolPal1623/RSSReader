@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		223FA7731D214BBD00627414 /* SelectedNews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223FA7721D214BBD00627414 /* SelectedNews.swift */; };
+		223FA7751D242B3800627414 /* AddChannelTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223FA7741D242B3800627414 /* AddChannelTableViewController.swift */; };
+		223FA7771D242B5600627414 /* AddChannelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 223FA7761D242B5600627414 /* AddChannelTableViewCell.swift */; };
 		225F5C241CFAD7FF00E2080F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 225F5C231CFAD7FF00E2080F /* AppDelegate.swift */; };
 		225F5C291CFAD80000E2080F /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 225F5C271CFAD80000E2080F /* Main.storyboard */; };
 		225F5C2B1CFAD80000E2080F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 225F5C2A1CFAD80000E2080F /* Assets.xcassets */; };
@@ -17,6 +20,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		223FA7721D214BBD00627414 /* SelectedNews.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectedNews.swift; sourceTree = "<group>"; };
+		223FA7741D242B3800627414 /* AddChannelTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddChannelTableViewController.swift; sourceTree = "<group>"; };
+		223FA7761D242B5600627414 /* AddChannelTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AddChannelTableViewCell.swift; sourceTree = "<group>"; };
 		225F5C201CFAD7FF00E2080F /* RSSReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RSSReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		225F5C231CFAD7FF00E2080F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		225F5C281CFAD80000E2080F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -66,6 +72,9 @@
 				225F5C231CFAD7FF00E2080F /* AppDelegate.swift */,
 				225F5C391CFADEC900E2080F /* NewsTableViewController.swift */,
 				225F5C371CFADE8D00E2080F /* NewsTableViewCell.swift */,
+				223FA7721D214BBD00627414 /* SelectedNews.swift */,
+				223FA7741D242B3800627414 /* AddChannelTableViewController.swift */,
+				223FA7761D242B5600627414 /* AddChannelTableViewCell.swift */,
 				225F5C271CFAD80000E2080F /* Main.storyboard */,
 				225F5C2C1CFAD80000E2080F /* LaunchScreen.storyboard */,
 				225F5C2A1CFAD80000E2080F /* Assets.xcassets */,
@@ -214,8 +223,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				225F5C241CFAD7FF00E2080F /* AppDelegate.swift in Sources */,
+				223FA7751D242B3800627414 /* AddChannelTableViewController.swift in Sources */,
 				225F5C381CFADE8D00E2080F /* NewsTableViewCell.swift in Sources */,
 				225F5C3A1CFADEC900E2080F /* NewsTableViewController.swift in Sources */,
+				223FA7771D242B5600627414 /* AddChannelTableViewCell.swift in Sources */,
+				223FA7731D214BBD00627414 /* SelectedNews.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

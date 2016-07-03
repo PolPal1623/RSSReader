@@ -18,131 +18,36 @@ class SavedNews: Object {
     dynamic var pubDate: NSDate? = nil
 }
 
+class SavedChannel: Object {
+    dynamic var nameCannel = ""
+    dynamic var linkCannel = ""
+}
+
 class NewsTableViewController: UITableViewController {
     
     //===================================//
     // MARK: - Глобальные переменные для NewsTableViewController
     //===================================//
     
-    var urlRSSNews = ["http://lenta.ru/rss"] // Адрес RSS Новостей
+    var urlRSSNews = [String]() // Адрес RSS Новостей
     var arrayNews = [RSSItem]() // Массив для парсинга ленты новостей
     var listNews: Results<(SavedNews)>! // Массив сохраненных новостей из библиотеки
+    var listChannel: Results<(SavedChannel)>! // Массив сохраненных каналов
+    let timeForRefresh: UInt32 = 1 // Время на загрузку новостей
     
     //===================================//
     // MARK: - IBOutlet связывающие Scene и NewsTableViewController
     //===================================//
+
     
     //===================================//
     // MARK: - IBAction на нашей Scene
     //===================================//
     
-    //-----------------------------------// Метод для теста парсинга
-    @IBAction func Refresh(sender: UIBarButtonItem) {
-        refreshSomething() // Метод для обновления запроса URL и перезагрузки таблицы
-        
-        // Задержка для подгрузки новостей
-        delayClosure(4) {
-            if self.arrayNews.count != 0 {
-                print("Save")
-                self.saveNewsInRealm() // Метод для сохранения новостей
-            } else {
-                print("Extract")
-                self.extractNewsInRealm() // Метод для извлечения новостей при отсутствии интернета
-            }
-        }
-    }
-    
-    //===================================//
-    // MARK: - Методы загружаемые перед или после обновления View Controller
-    //===================================//
-    
-    //-----------------------------------// Метод viewDidLoad срабатывает при загрузке View Scene
-    override func viewDidLoad() {
-        //------------------ Перенос всех свойств класса этому экземпляру
-        super.viewDidLoad()
-        
-        refreshSomething() // Метод для обновления запроса URL и перезагрузки таблицы
-        
-        // Задержка для подгрузки новостей
-        delayClosure(4) {
-            if self.arrayNews.count != 0 {
-                print("Save")
-                self.saveNewsInRealm() // Метод для сохранения новостей
-            } else {
-                print("Extract")
-                self.extractNewsInRealm() // Метод для извлечения новостей при отсутствии интернета
-            }
-        }
-    }
-    
-    //===================================//
-    // MARK: - Кастомные методы
-    //===================================//
-    
-    //-----------------------------------// Метод для задержки вызова функции
-    func delayClosure(delay: Double, closure: () -> ()) {
-        dispatch_after(
-            dispatch_time(DISPATCH_TIME_NOW, Int64(delay * Double(NSEC_PER_SEC))),
-            dispatch_get_main_queue(), closure)
-    }
-    
-    //-----------------------------------// Метод для обновления запроса URL и перезагрузки таблицы
-    func refreshSomething() {
-        newsParsing(self.urlRSSNews) // Метод для парсинга RSS
-        // Задержка для завершения парсинга
-        delayClosure(1) {
-            self.sortArrayNews() // Метод для сортировки arrayNews по дате новости
-            self.tableView.reloadData() // Перезагрузка таблицы
-        }
-    }
-    
-    //-----------------------------------// Метод для сохранения/обновления новостей
-    func saveNewsInRealm() {
-        let realm = try! Realm() // Точка входа в Realm
-       
-        // Удаление всех новостей перед сохранением нового блока
-        try! realm.write {
-            realm.deleteAll()
-        }
-        
-        //Сохранение новостей в Realm
-        for optionalNews in arrayNews {
-            if optionalNews.title != nil && optionalNews.itemDescription != nil && optionalNews.link != nil && optionalNews.pubDate != nil  {
-                    let newsRealm = SavedNews()
-                    newsRealm.title = optionalNews.title!
-                    newsRealm.itemDescription = optionalNews.itemDescription!
-                    newsRealm.link = optionalNews.link!
-                    newsRealm.pubDate = optionalNews.pubDate
-                    try! realm.write {realm.add(newsRealm)}
-            }
-        }
-    }
-    
-    //-----------------------------------// Метод для извлечения новостей
-    func extractNewsInRealm() {
-        let realm = try! Realm() // Точка входа в Realm
-        listNews = realm.objects(SavedNews) // Извлечение новостей из Realm
-        self.tableView.reloadData() // Перезагрузка таблицы
-    }
-    
-    //-----------------------------------// Метод для перевода даты в читаемый вид
-    func upgrateDate(difficultDate: NSDate?) -> String {
-        let liteData = difficultDate!
-        let calendar = NSCalendar.currentCalendar()
-        let components = calendar.components([.Day , .Month , .Year, .Hour, .Minute], fromDate: liteData)
-        let hour = components.hour
-        let minuteInt = components.minute
-        var minute = "00"
-        if minuteInt < 10 {
-            minute = "0" + String(minuteInt)
-        } else {
-            minute = String(minuteInt)
-        }
-        let day = components.day
-        let month = components.month
-        let year = components.year
-        let date = "\(hour):\(minute) \(day)/\(month)/\(year)"
-        return date
+    //-----------------------------------// Метод для перехода на AddChannelTableViewController
+    @IBAction func buttonAddCannel(sender: AnyObject) {
+        let viewController = storyboard?.instantiateViewControllerWithIdentifier("addCannel") as! AddChannelTableViewController // Инициализация VC для перехода
+        self.navigationController?.pushViewController(viewController, animated: true)
     }
     
     //===================================//
@@ -151,6 +56,10 @@ class NewsTableViewController: UITableViewController {
     
     //-----------------------------------// Метод для парсинга RSS
     func newsParsing(url: [String]) {
+        // Удаление старого массива новостей перед добавлением нового блока
+        if arrayNews.count > 0 {
+            arrayNews.removeAll()
+        }
         for index in url {
             //------------------ Запрос через Alamofire
             Alamofire.request(.GET, index).responseRSS() { (response) -> Void in
@@ -172,6 +81,135 @@ class NewsTableViewController: UITableViewController {
                 }
             }
         }
+    }
+    
+    //===================================//
+    // MARK: - Кастомные методы
+    //===================================//
+    
+    //-----------------------------------// Метод для обновления списка каналов
+    func updateListChannel() {
+        let realm = try! Realm() // Точка входа в Realm
+        listChannel = realm.objects(SavedChannel) // Извлечение каналов из Realm
+        urlRSSNews.removeAll()
+        for index in listChannel {
+            urlRSSNews.append(index.linkCannel)
+        }
+    }
+    
+    
+     //-----------------------------------// Метод для обновления блока новостей
+    func refresh() {
+        refreshSomething()
+        sleep(timeForRefresh)
+        refreshControl!.endRefreshing()
+    }
+    
+    //-----------------------------------// Метод для задержки вызова функции
+    func delayClosure(delay: UInt32, closure: () -> ()) {
+        dispatch_after(
+            dispatch_time(DISPATCH_TIME_NOW, Int64(Double(delay) * Double(NSEC_PER_SEC))),
+            dispatch_get_main_queue(), closure)
+    }
+    
+    //-----------------------------------// Метод для сохранения/обновления новостей в кэше
+    func saveNewsInRealm() {
+        // Удаление всех новостей перед сохранением нового блока
+        let realm = try! Realm() // Точка входа в Realm
+        listNews = realm.objects(SavedNews)
+        try! realm.write {
+            realm.delete(listNews)
+        }
+        //Сохранение новостей в Realm
+        for optionalNews in arrayNews {
+            if optionalNews.title != nil && optionalNews.itemDescription != nil && optionalNews.link != nil && optionalNews.pubDate != nil  {
+                    let newsRealm = SavedNews()
+                    newsRealm.title = optionalNews.title!
+                    newsRealm.itemDescription = optionalNews.itemDescription!
+                    newsRealm.link = optionalNews.link!
+                    newsRealm.pubDate = optionalNews.pubDate
+                    try! realm.write {realm.add(newsRealm)}
+            }
+        }
+    }
+    
+    //-----------------------------------// Метод для извлечения новостей из памяти
+    func extractNewsInRealm() {
+        let realm = try! Realm() // Точка входа в Realm
+        listNews = realm.objects(SavedNews) // Извлечение новостей из Realm
+        self.tableView.reloadData() // Перезагрузка таблицы
+    }
+    
+    //-----------------------------------// Метод для обновления запроса по URL и сохранения нового блока в кэш
+    func refreshSomething() {
+        updateListChannel()
+        newsParsing(self.urlRSSNews) // Метод для парсинга RSS
+        
+        // Задержка для завершения парсинга
+        delayClosure(timeForRefresh) {
+            self.sortArrayNews() // Метод для сортировки arrayNews по дате новости
+            self.tableView.reloadData() // Перезагрузка таблицы
+        }
+        
+        // Задержка для подгрузки новостей из кэша
+        delayClosure(timeForRefresh) {
+            if self.arrayNews.count != 0 {
+                self.saveNewsInRealm() // Метод для сохранения новостей
+                print("update news cashe")
+            } else {
+                let realm = try! Realm() // Точка входа в Realm
+                self.listChannel = realm.objects(SavedChannel) // Извлечение каналов из Realm
+                if self.listChannel.count != 0 {
+                    let alertController = UIAlertController(title: "No Internet", message: "News will download from the cache, if you have already included the application", preferredStyle: .ActionSheet)
+                    let okAction = UIAlertAction(title: "Ok", style: .Cancel) { (action) in
+                        self.extractNewsInRealm() // Метод для извлечения новостей при отсутствии интернета
+                    }
+                    alertController.addAction(okAction)
+                    self.presentViewController(alertController, animated: true, completion: nil)
+                }
+            }
+        }
+    }
+    
+    //-----------------------------------// Метод для перевода даты в читаемый вид
+    func upgrateDate(difficultDate: NSDate?) -> String {
+        // Проверка на наличие даты
+        if let liteData = difficultDate {
+            let calendar = NSCalendar.currentCalendar() // Обращение к календарю
+            let components = calendar.components([.Day , .Month , .Year, .Hour, .Minute], fromDate: liteData) // Выделения компонентов из календаря
+            let hour = components.hour
+            let minuteInt = components.minute
+            var minute = "00"
+            // Условия для корректного отображения минут со значениями меньше 10
+            if minuteInt < 10 {
+                minute = "0" + String(minuteInt)
+            } else {
+                minute = String(minuteInt)
+            }
+            let day = components.day
+            let month = components.month
+            let year = components.year
+            let date = "\(hour):\(minute) \(day)/\(month)/\(year)" // Компановка даты
+            return date
+        } else {
+            return "non date"
+        }
+    }
+    
+    //===================================//
+    // MARK: - Методы загружаемые перед или после обновления View Controller
+    //===================================//
+    
+    //-----------------------------------// Метод viewDidLoad срабатывает при загрузке View Scene
+    override func viewDidLoad() {
+        //------------------ Перенос всех свойств класса этому экземпляру
+        super.viewDidLoad()
+        
+        refreshSomething() // Метод для обновления запроса URL и перезагрузки таблицы
+        
+        // Метод для обновления блока новостей
+        refreshControl = UIRefreshControl()
+        refreshControl!.addTarget(self, action: #selector(NewsTableViewController.refresh), forControlEvents: UIControlEvents.ValueChanged)
     }
     
     //===================================//
@@ -201,7 +239,7 @@ class NewsTableViewController: UITableViewController {
         
         let cell = tableView.dequeueReusableCellWithIdentifier("NewsCell", forIndexPath: indexPath) as! NewsTableViewCell
         
-        // Выбор массива для отображения в таблице
+        // Выбор массива для отображения в таблице (проверка на наличие успешного соединения с интернетом)
         if arrayNews.count == 0 {
             cell.titleNews.text = listNews[indexPath.row].title // Заголовок
             cell.textNews.text = listNews[indexPath.row].itemDescription // Краткое описание новости
@@ -218,7 +256,29 @@ class NewsTableViewController: UITableViewController {
     
     //-----------------------------------// Действия по нажатию на конкретную ячейку
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        print("cell \(indexPath.row)")
+        
+        let viewController = storyboard?.instantiateViewControllerWithIdentifier("SelectedNews") as! SelectedNews // Инициализация VC для перехода
+        // Выбор массива для отображения в таблице (проверка на наличие успешного соединения с сервером)
+        
+        tableView.deselectRowAtIndexPath(indexPath, animated: true) // Убирает анимацию залипания при нажатии (выборе ячейки)
+        
+        // Выбор массива для отображения в таблице (проверка на наличие успешного соединения с интернетом)
+        if arrayNews.count == 0 {
+                viewController.titleNewsText = listNews[indexPath.row].title
+                viewController.descriptionNewsText = listNews[indexPath.row].itemDescription
+                viewController.linkNews = listNews[indexPath.row].link
+        } else {
+            if let titleNewsText = arrayNews[indexPath.row].title {
+                viewController.titleNewsText = titleNewsText
+            }
+            if let descriptionNewsText = arrayNews[indexPath.row].itemDescription {
+                viewController.descriptionNewsText = descriptionNewsText
+            }
+            if let linkNews = arrayNews[indexPath.row].link {
+                viewController.linkNews = linkNews
+            }
+        }
+        self.navigationController?.pushViewController(viewController, animated: true) // Переход на другой VC
     }
 }
 
