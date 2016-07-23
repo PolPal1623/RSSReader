@@ -16,7 +16,7 @@ class SelectedNews: UIViewController {
     
     var titleNewsText = " " // Заголовок
     var descriptionNewsText = " " // Текст
-    var linkNews = "" // Ссылка
+    var linkNews = " " // Ссылка
     
     //===================================//
     // MARK: - IBOutlet связывающие Scene и SelectedNewsTableView

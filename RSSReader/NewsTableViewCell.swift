@@ -17,5 +17,5 @@ class NewsTableViewCell: UITableViewCell {
     @IBOutlet weak var titleNews: UILabel! // Заголовок
     @IBOutlet weak var textNews: UILabel! // Описание новости
     @IBOutlet weak var dateNews: UILabel! // Дата новости
-
+    
 }

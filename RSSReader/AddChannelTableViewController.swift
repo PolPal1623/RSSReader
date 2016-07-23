@@ -12,18 +12,6 @@ import RealmSwift
 class AddChannelTableViewController: UITableViewController {
     
     //===================================//
-    // MARK: - Глобальные переменные для SelectedNewsTableView
-    //===================================//
-    
-    //===================================//
-    // MARK: - IBOutlet связывающие Scene и SelectedNewsTableView
-    //===================================//
-    
-    //===================================//
-    // MARK: - IBAction на нашей Scene
-    //===================================//
-    
-    //===================================//
     // MARK: - Кастомные методы
     //===================================//
     
@@ -31,6 +19,7 @@ class AddChannelTableViewController: UITableViewController {
     func changeMistakeURLName(urlString: String) -> String {
         var urlNotSpaceString = "" // Адрес без пробелов
         for index in urlString.characters {
+            // Проверка на пробелы в адресе
             if index != " " {
                 urlNotSpaceString = urlNotSpaceString + String(index)
             }
@@ -40,13 +29,12 @@ class AddChannelTableViewController: UITableViewController {
     
     //-----------------------------------// Метод для проверки на ошибки в адресе канала
     func errorURLName(urlString: String) -> Bool {
-        
         var firstInspection = "" // Проверка начала введенного адреса
         var endInspection = "" // Проверка окончания введенного адреса
         let firstOne = "http://" // Правильное начало адреса
         let firstTwo = "https:/" // Правильное начало адреса
         let endOne = "ssr" // Правильное окончание адреса вариант 1
-        let endTwo = "lmx" // Правильное окончание адреса вариант 2
+        let endTwo = "lmx" // Правильное окончание адреса вариант 1
         var firstTrue = false // Совпадение начала адреса
         var endTrue = false // Совпадение окончания адреса
         

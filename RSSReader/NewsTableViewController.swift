@@ -33,13 +33,8 @@ class NewsTableViewController: UITableViewController {
     var arrayNews = [RSSItem]() // Массив для парсинга ленты новостей
     var listNews: Results<(SavedNews)>! // Массив сохраненных новостей из библиотеки
     var listChannel: Results<(SavedChannel)>! // Массив сохраненных каналов
-    let timeForRefresh: UInt32 = 1 // Время на загрузку новостей
-    
-    //===================================//
-    // MARK: - IBOutlet связывающие Scene и NewsTableViewController
-    //===================================//
-
-    
+    let timeForRefresh: UInt32 = 2 // Время на загрузку новостей
+   
     //===================================//
     // MARK: - IBAction на нашей Scene
     //===================================//
@@ -86,6 +81,19 @@ class NewsTableViewController: UITableViewController {
     //===================================//
     // MARK: - Кастомные методы
     //===================================//
+   
+    //-----------------------------------// Метод для действий при первом запуске
+    func firstLaunch() {
+        let launchedBefore = NSUserDefaults.standardUserDefaults().boolForKey("launchedBefore")
+        if !launchedBefore  {
+            let realm = try! Realm() // Точка входа в Realm
+            let firstChannel = SavedChannel()
+            firstChannel.nameCannel = "Lenta.ru"
+            firstChannel.linkCannel = "http://lenta.ru/rss"
+            try! realm.write {realm.add(firstChannel)}
+            NSUserDefaults.standardUserDefaults().setBool(true, forKey: "launchedBefore")
+        }
+    }
     
     //-----------------------------------// Метод для обновления списка каналов
     func updateListChannel() {
@@ -96,7 +104,6 @@ class NewsTableViewController: UITableViewController {
             urlRSSNews.append(index.linkCannel)
         }
     }
-    
     
      //-----------------------------------// Метод для обновления блока новостей
     func refresh() {
@@ -144,15 +151,13 @@ class NewsTableViewController: UITableViewController {
     func refreshSomething() {
         updateListChannel()
         newsParsing(self.urlRSSNews) // Метод для парсинга RSS
-        
         // Задержка для завершения парсинга
         delayClosure(timeForRefresh) {
             self.sortArrayNews() // Метод для сортировки arrayNews по дате новости
             self.tableView.reloadData() // Перезагрузка таблицы
         }
-        
         // Задержка для подгрузки новостей из кэша
-        delayClosure(timeForRefresh) {
+        delayClosure(timeForRefresh*2) {
             if self.arrayNews.count != 0 {
                 self.saveNewsInRealm() // Метод для сохранения новостей
                 print("update news cashe")
@@ -163,6 +168,14 @@ class NewsTableViewController: UITableViewController {
                     let alertController = UIAlertController(title: "No Internet", message: "News will download from the cache, if you have already included the application", preferredStyle: .ActionSheet)
                     let okAction = UIAlertAction(title: "Ok", style: .Cancel) { (action) in
                         self.extractNewsInRealm() // Метод для извлечения новостей при отсутствии интернета
+                    }
+                    alertController.addAction(okAction)
+                    self.presentViewController(alertController, animated: true, completion: nil)
+                } else {
+                    let alertController = UIAlertController(title: "Mistake", message: "You don't have channel", preferredStyle: .ActionSheet)
+                    let okAction = UIAlertAction(title: "Ok", style: .Cancel) { (action) in
+                        let viewController = self.storyboard?.instantiateViewControllerWithIdentifier("addCannel") as! AddChannelTableViewController // Инициализация VC для перехода
+                        self.navigationController?.pushViewController(viewController, animated: true)
                     }
                     alertController.addAction(okAction)
                     self.presentViewController(alertController, animated: true, completion: nil)
@@ -205,6 +218,7 @@ class NewsTableViewController: UITableViewController {
         //------------------ Перенос всех свойств класса этому экземпляру
         super.viewDidLoad()
         
+        firstLaunch() // Первый запуск
         refreshSomething() // Метод для обновления запроса URL и перезагрузки таблицы
         
         // Метод для обновления блока новостей
@@ -223,7 +237,6 @@ class NewsTableViewController: UITableViewController {
     
     //-----------------------------------// Метод возвращает кол-во строк в секции TableView
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
         // Выбор массива для отображения в таблице
         if arrayNews.count == 0 {
             let realm = try! Realm() // Точка входа в Realm
@@ -236,9 +249,7 @@ class NewsTableViewController: UITableViewController {
     
     //-----------------------------------// Создаем ячейку по идентификатору с indexPath в методе для работы и настройки Cell в TableView
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
         let cell = tableView.dequeueReusableCellWithIdentifier("NewsCell", forIndexPath: indexPath) as! NewsTableViewCell
-        
         // Выбор массива для отображения в таблице (проверка на наличие успешного соединения с интернетом)
         if arrayNews.count == 0 {
             cell.titleNews.text = listNews[indexPath.row].title // Заголовок
@@ -255,8 +266,7 @@ class NewsTableViewController: UITableViewController {
     }
     
     //-----------------------------------// Действия по нажатию на конкретную ячейку
-    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        
+    override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {        
         let viewController = storyboard?.instantiateViewControllerWithIdentifier("SelectedNews") as! SelectedNews // Инициализация VC для перехода
         // Выбор массива для отображения в таблице (проверка на наличие успешного соединения с сервером)
         
@@ -281,10 +291,3 @@ class NewsTableViewController: UITableViewController {
         self.navigationController?.pushViewController(viewController, animated: true) // Переход на другой VC
     }
 }
-
-
-
-
-
-
-
